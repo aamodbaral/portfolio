@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aamod Baral - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Optional: Custom style to ensure full width/height on small devices for sections */
+        .min-h-screen {
+            min-height: 100vh;
+        }
+        /* Custom scrollbar style for the whole body */
+        body {
+            scrollbar-width: thin;
+            scrollbar-color: #34D399 #111827; /* Green-400 on Gray-900 (or Black) */
+        }
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-track {
+            background: #000000; /* Black */
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #34D399; /* Green-400 */
+            border-radius: 20px;
+            border: 2px solid #000000;
+        }
+
+        /* --- STYLES FOR BINARY RAIN EFFECT --- */
+        /* Ensure the section is positioned for the absolute background */
+        .Hero {
+            position: relative;
+            overflow: hidden; /* Important to keep binary inside */
+        }
+        /* Style for the binary background container */
+        #binary-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1; /* Makes the rain subtle */
+            overflow: hidden;
+            z-index: 0; /* Keep it behind the content */
+        }
+        /* Style for individual binary lines (created by JavaScript) */
+        .binary-line {
+            position: absolute;
+            white-space: nowrap; /* Prevent numbers from wrapping */
+            font-family: monospace;
+            color: #4ade80; /* Tailwind 'text-green-400' color */
+            font-size: 20px;
+            animation: fall linear infinite; /* Apply the animation */
+        }
+        /* Define the falling animation */
+        @keyframes fall {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(100vh); /* Fall off the viewport */
+            }
+        }
+        /* Ensure content stays above the background */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* --- GREETING ANIMATION STYLES (Waving Hand) --- */
+        
+        @keyframes wave {
+            0% { transform: rotate( 0.0deg) }
+            10% { transform: rotate(14.0deg) } /* Wave slightly left */
+            20% { transform: rotate(-8.0deg) } /* Wave slightly right */
+            30% { transform: rotate(14.0deg) } 
+            40% { transform: rotate(-4.0deg) }
+            50% { transform: rotate(10.0deg) }
+            60% { transform: rotate( 0.0deg) } /* Return to starting position */
+            100% { transform: rotate( 0.0deg) }
+        }
+        
+        .waving-hand {
+            /* Apply wave animation, running continuously (infinite) */
+            animation: wave 2.5s infinite;
+            transform-origin: 70% 70%; /* Rotate around the bottom of the hand */
+            display: inline-block;
+            font-size: 1.2em; /* Ensure it scales with the heading size */
+            margin-left: 1rem; /* Space from the name */
+        }
+
+        /* --- GLITCH STYLES (from previous modification) --- */
+
+        /* 1. Glitch Effect for the Main Heading on Load */
+        @keyframes initial-glitch {
+            0% {
+                text-shadow: 2px 0 0 #4ade80, -2px 0 0 #ef4444;
+                transform: translate(2px, 0);
+                opacity: 0.9;
+            }
+            10% {
+                text-shadow: -2px 0 0 #4ade80, 2px 0 0 #ef4444;
+                transform: translate(-2px, 0);
+            }
+            11% {
+                text-shadow: none;
+                transform: none;
+                opacity: 1;
+            }
+            100% {
+                text-shadow: none;
+                transform: none;
+                opacity: 1;
+            }
+        }
+        
+        .glitch-text {
+            animation: initial-glitch 2s ease-out 0.5s 1 forwards;
+            opacity: 0; /* Start hidden for the animation reveal */
+        }
+
+        /* 2. Hover Glitch Effect for the Name */
+        @keyframes hover-glitch {
+            0% {
+                text-shadow: 2px 0 0 #4ade80, -2px 0 0 #ef4444;
+                transform: translate(2px, -2px);
+            }
+            20% {
+                text-shadow: -2px 0 0 #4ade80, 2px 0 0 #ef4444;
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                text-shadow: 2px 0 0 #4ade80, -2px 0 0 #ef4444;
+                transform: translate(2px, -2px);
+            }
+            60% {
+                text-shadow: -2px 0 0 #4ade80, 2px 0 0 #ef4444;
+                transform: translate(-2px, 2px);
+            }
+            80% {
+                text-shadow: 2px 0 0 #4ade80, -2px 0 0 #ef4444;
+                transform: translate(2px, -2px);
+            }
+            100% {
+                text-shadow: none;
+                transform: none;
+            }
+        }
+
+        .highlight-glitch:hover {
+            color: #fff; /* White text on hover */
+            animation: hover-glitch 0.3s steps(1) infinite; /* Fast, stepped animation */
+        }
+    </style>
+</head>
+<body class="bg-black">
+    
+    <header class="sticky top-0 z-50">
+        <div id="nav" class="flex flex-col md:flex-row justify-between items-center py-4 px-6 md:px-12 bg-black text-green-400 shadow-lg border-b border-green-800">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold font-mono hover:text-white transition duration-300 mb-4 md:mb-0">A</h1>
+            
+            <nav>
+                <ul class="flex flex-wrap justify-center gap-x-4 gap-y-2 md:gap-x-10 nav-links">
+                    <li><a href="#home" class="font-mono text-base sm:text-lg md:text-xl p-1 rounded hover:text-black hover:bg-green-400 transition duration-300">Home</a></li>
+                    <li><a href="#about" class="font-mono text-base sm:text-lg md:text-xl p-1 rounded hover:text-black hover:bg-green-400 transition duration-300">About Me</a></li>
+                    <li><a href="#skills" class="font-mono text-base sm:text-lg md:text-xl p-1 rounded hover:text-black hover:bg-green-400 transition duration-300">Skills</a></li>
+                    <li><a href="#projects" class="font-mono text-base sm:text-lg md:text-xl p-1 rounded hover:text-black hover:bg-green-400 transition duration-300">Projects</a></li>
+                    <li><a href="#contact" class="font-mono text-base sm:text-lg md:text-xl p-1 rounded hover:text-black hover:bg-green-400 transition duration-300">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="min-h-screen flex items-center text-green-400 py-20 px-6 sm:px-10 md:px-20 bg-black Hero">
+        <div id="binary-background"></div>
+        
+        <div class="space-y-4 py-0 sm:py-20 md:py-32 text-left hero-content">
+            <div class="flex items-center">
+                 <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold font-mono glitch-text inline-block">
+                    Hi, I'm 
+                    <span class="text-white transition duration-200 highlight-glitch">Aamod Baral</span>
+                </h2>
+                <span class="waving-hand text-4xl sm:text-5xl md:text-6xl" role="img" aria-label="Waving hand emoji">👋</span>
+            </div>
+            
+            <div class="pl-0 sm:pl-10">
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-mono">I am a <span id="changing-text" class="text-green-300 font-mono"></span></h2>
+                <p class="text-base sm:text-lg text-gray-200 font-mono mt-4">Welcome to my personal portfolio website.</p>
+                
+                <a href="#contact" class="text-lg sm:text-xl md:text-2xl font-bold inline-block mt-8 px-6 py-2 bg-green-400 text-black text-center font-mono rounded-full hover:bg-white transition duration-300 shadow-lg cont-button">Get In Touch</a>
+                
+                </div>
+        </div>
+    </section>
+    
+    <hr class="border border-green-400 hover:border-white transition duration-300">
+    
+    <section id="about-hobbies-container" class="flex flex-col bg-black text-green-400 pb-20">
+    
+    <div class="flex flex-col lg:flex-row flex-1">
+        
+        <section id="about" class="flex-1 py-10 px-6 sm:px-10 lg:px-20 about-section scroll-mt-20">
+            <h2 class="text-3xl md:text-4xl font-mono font-extrabold text-center mb-10"><span class="hover:text-white transition duration-300">About Me: The Code</span></h2>
+            <div class="about-content">
+                <div class="text-justify text-base sm:text-lg font-mono border border-green-400 rounded-3xl border-4 p-6 text-gray-200 about-text">
+                    <p class="mb-4">
+                        Hello! I'm Aamod Baral, a multifaceted professional whose skills intersect at the cutting edge of digital development and system security.
+                    </p>
+                    
+                    <p class="mb-4 text-green-300 font-bold">As a Web Developer & Designer:</p>
+                    <p class="mb-4">
+                        I translate complex ideas into intuitive, responsive digital experiences. My core is built on **HTML, CSS, JavaScript (React/Vue)** and modern principles like clean architecture and performance optimization. I focus on delivering seamless, high-speed user interfaces.
+                    </p>
+                    
+                    <p class="mb-4 text-green-300 font-bold">As a Computer Engineer:</p>
+                    <p class="mb-4">
+                        My technical foundation spans hardware-software integration and system architecture. I approach projects with a structured, problem-solving mindset, capable of designing efficient systems from the ground up, ensuring robustness and scalability.
+                    </p>
+                    
+                    <p class="mb-4 text-green-300 font-bold">As an Ethical Hacker:</p>
+                    <p>
+                        I proactively identify and mitigate vulnerabilities in digital environments. This security-first perspective is woven into all my development work, ensuring that every solution I build is not just functional, but also robustly secure against emerging threats.
+                    </p>
+                </div>
+            </div>  
+        </section>
+
+        <section id="hobbies" class="flex-1 py-10 px-6 sm:px-10 lg:px-20 about-section hobbies-content">
+            <h2 class="text-3xl md:text-4xl font-mono font-extrabold text-center mb-10"><span class="hover:text-white transition duration-300">Hobbies: The Debug</span></h2>
+            <div class="hobbies-content">
+                <div class="text-base sm:text-lg font-mono border border-green-400 rounded-3xl border-4 p-6 text-gray-200 text-justify about-text hobbies-text">
+                    <p class="mb-4">
+                        My interests outside of the terminal are diverse but often mirror my technical passions:
+                    </p>
+                    
+                    <p class="mb-4"><span class="font-bold text-green-300">// Exploration & System Mapping (Hiking):</span> Hiking and exploring the outdoors is my way of mapping complex natural systems. It offers perspective and a clean break from screens, aiding in mental reset and continuous creative thinking.</p>
+                    
+                    <p class="mb-4"><span class="font-bold text-green-300">// Visual Design & Composition (Photography):</span> Photography sharpens my eye for aesthetics, composition, and light, skills that directly translate to UI/UX design. It teaches me to focus on details and capture the essence of a subject efficiently.</p>
+                    
+                    <p><span class="font-bold text-green-300">// Continuous Learning & Vulnerability Research (Reading):</span> I regularly read books and papers on advanced cybersecurity, AI, and engineering principles. This dedication to learning ensures I stay current, viewing the world not just as a developer, but also as a security analyst.</p>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+
+    <div id="Photography" class="hobbies-photo mt-8 py-1 px-6 sm:px-10 w-full max-w-4xl mx-auto">
+        <h3 class="font-mono py-4 text-xl md:text-2xl text-center hover:text-white transition duration-300">Photography Gallery</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border rounded-3xl border-green-400 border-4 p-4 gallery">
+            <div class="relative overflow-hidden rounded-lg shadow-xl group cursor-pointer aspect-video"> 
+                <a href="WhatsApp Image 2025-12-09 at 22.06.30_8491cacc.jpg" target="_blank" title="Click to View full image">
+                    <img src="WhatsApp Image 2025-12-09 at 22.06.30_8491cacc.jpg" alt="Mountain View" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105 group-hover:brightness-75">
+                </a>
+            </div>
+            <div class="relative overflow-hidden rounded-lg shadow-xl group cursor-pointer aspect-video">
+                <a href="WhatsApp Image 2025-12-09 at 22.06.31_06afa5c6.jpg" target="_blank" title="Click to View full image">
+                    <img src="WhatsApp Image 2025-12-09 at 22.06.31_06afa5c6.jpg" alt="Cityscape" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105 group-hover:brightness-75">
+                </a>
+            </div>
+            <div class="relative overflow-hidden rounded-lg shadow-xl group cursor-pointer aspect-video">
+                <a href="WhatsApp Image 2025-12-09 at 22.06.31_f7c0175b.jpg" target="_blank" title="Click to View full image">
+                    <img src="WhatsApp Image 2025-12-09 at 22.06.31_f7c0175b.jpg" alt="Forest Trail" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105 group-hover:brightness-75">
+                </a>
+            </div>
+            <div class="relative overflow-hidden rounded-lg shadow-xl group cursor-pointer aspect-video">
+                <a href="WhatsApp Image 2025-12-09 at 22.06.32_9d51317d.jpg" target="_blank" title="Click to View full image">
+                    <img src="WhatsApp Image 2025-12-09 at 22.06.32_9d51317d.jpg" alt="Sunset Beach" class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105 group-hover:brightness-75">
+                </a>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+    <hr class="border border-green-400 hover:border-white transition duration-300">
+
+    <section id="skills" class="bg-black text-white py-20 px-4 sm:px-10 lg:px-20 skill-content">
+    <div class="skills max-w-6xl mx-auto">
+        <h3 class="text-3xl md:text-4xl text-center font-mono font-bold text-green-400 py-4 mb-8 hover:text-white transition duration-300">Technical Skills Matrix</h3>
+        
+        <div class="space-y-12">
+            
+            <div class="border border-green-700 p-6 rounded-xl shadow-lg">
+                <h4 class="text-xl md:text-2xl font-bold font-mono text-green-400 mb-4 border-b border-green-400 pb-2">🌐 Web Development & UI/UX</h4>
+                <ul class="flex flex-wrap justify-center gap-x-6 gap-y-4 md:gap-x-10 text-green-200">
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">HTML5 & CSS3 (Tailwind, SCSS)</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">JavaScript (ES6+) & TypeScript</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">React & Vue.js</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Node.js & Express</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">RESTful APIs & GraphQL</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">UI/UX Prototyping (Figma)</li>
+                </ul>
+            </div>
+
+            <div class="border border-green-700 p-6 rounded-xl shadow-lg">
+                <h4 class="text-xl md:text-2xl font-bold font-mono text-green-400 mb-4 border-b border-green-400 pb-2">⚙️ Computer Engineering & Systems</h4>
+                <ul class="flex flex-wrap justify-center gap-x-6 gap-y-4 md:gap-x-10 text-green-200">
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">C++ & Python (Scripting)</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">System Architecture Design</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Database Management (SQL, NoSQL)</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Cloud Platforms (AWS/Azure Basics)</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Version Control (Git)</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">OS: Linux & Windows</li>
+                </ul>
+            </div>
+
+            <div class="border border-green-700 p-6 rounded-xl shadow-lg">
+                <h4 class="text-xl md:text-2xl font-bold font-mono text-green-400 mb-4 border-b border-green-400 pb-2">🔒 Cybersecurity & Ethical Hacking</h4>
+                <ul class="flex flex-wrap justify-center gap-x-6 gap-y-4 md:gap-x-10 text-green-200">
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Penetration Testing (Web/Network)</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Vulnerability Assessment</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Security Auditing (OWASP Top 10)</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Cryptography Implementation</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Network Security (Firewalls, IDS)</li>
+                    <li class="px-3 py-2 font-mono text-lg md:text-xl box-border border-b border-r-4 rounded-lg hover:text-black hover:bg-green-400 transition duration-300">Secure Coding Practices</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+    <hr class="border border-green-400 hover:border-white transition duration-300">
+
+    <section id="projects" class="py-20 px-4 sm:px-10 lg:px-20 bg-black text-green-400 project-content">
+    
+    <h2 class="text-3xl md:text-4xl font-mono text-center py-9 hover:text-white transition duration-300">My Projects</h2>
+    
+    <div class="max-w-6xl mx-auto project-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-0">
+        
+        <div class="border border-green-400 rounded-xl border-4 font-mono text-center p-6 bg-gray-900 shadow-xl transition duration-300 hover:shadow-green-500/50 group project-container">
+            <h3 class="text-xl md:text-2xl mb-3 group-hover:text-white transition duration-300">Project Title 1</h3>
+            <img src="https://via.placeholder.com/600x300?text=Project+1" alt="project 1 picture" class="w-full h-40 object-cover mb-4 rounded-md">
+            <p class="mb-4 text-gray-300 text-sm md:text-base">Brief description of Project 1.</p>
+            <button class="font-mono rounded-lg hover:text-black p-2 transition duration-300 hover:bg-green-400 text-center view-project bg-green-500 text-black w-full text-base md:text-lg">View Project</button>
+        </div>
+        
+        <div class="border border-green-400 rounded-xl border-4 font-mono text-center p-6 bg-gray-900 shadow-xl transition duration-300 hover:shadow-green-500/50 group project-container">
+            <h3 class="text-xl md:text-2xl mb-3 group-hover:text-white transition duration-300">Project Title 2</h3>
+            <img src="https://via.placeholder.com/600x300?text=Project+2" alt="project 2 picture" class="w-full h-40 object-cover mb-4 rounded-md">
+            <p class="mb-4 text-gray-300 text-sm md:text-base">Brief description of Project 2.</p>
+            <button class="font-mono rounded-lg hover:text-black p-2 transition duration-300 hover:bg-green-400 text-center view-project bg-green-500 text-black w-full text-base md:text-lg">View Project</button>
+        </div>
+        
+        <div class="border border-green-400 rounded-xl border-4 font-mono text-center p-6 bg-gray-900 shadow-xl transition duration-300 hover:shadow-green-500/50 group project-container">
+            <h3 class="text-xl md:text-2xl mb-3 group-hover:text-white transition duration-300">Project Title 3</h3>
+            <img src="https://via.placeholder.com/600x300?text=Project+3" alt="project 3 picture" class="w-full h-40 object-cover mb-4 rounded-md">
+            <p class="mb-4 text-gray-300 text-sm md:text-base">Brief description of Project 3.</p>
+            <button class="font-mono rounded-lg hover:text-black p-2 transition duration-300 hover:bg-green-400 text-center view-project bg-green-500 text-black w-full text-base md:text-lg">View Project</button>
+        </div>
+        
+    </div>
+    
+    <div class="max-w-4xl mx-auto mt-16 p-8 border-l-4 border-r-4 border-green-500 text-center quote-section">
+        <blockquote class="text-xl md:text-3xl italic font-serif text-gray-200">
+            "The future belongs to those who believe in the beauty of their dreams."
+        </blockquote>
+        <cite class="block mt-4 text-lg font-mono text-green-400">— Eleanor Roosevelt</cite>
+    </div>
+    </section>
+
+    <hr class="border border-green-400 hover:border-white transition duration-300">
+
+    <section id="contact" class="py-20 px-4 sm:px-10 lg:px-20 bg-black text-green-400 font-mono contact-content">
+        
+        <h2 class="text-3xl font-mono hover:text-white transition duration-300 text-center mb-10">Contact Me</h2>
+        
+        <form class="flex flex-col border p-6 border-4 rounded-3xl border-green-400 contact-form max-w-sm sm:max-w-md lg:max-w-lg mx-auto space-y-4"
+                action="https://formspree.io/f/xnneojwp" method="POST">
+            
+            <label for="name" class="text-xl">Name:</label>
+            <input type="text" id="name" name="name" 
+                class="border rounded-xl text-white px-3 py-2 bg-gray-800 border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400" required>
+
+            <label for="email" class="text-xl">Email:</label>
+            <input type="email" id="email" name="email" 
+                class="border rounded-xl text-white px-3 py-2 bg-gray-800 border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400" required>
+
+            <label for="message" class="text-xl">Message:</label>
+            <textarea id="message" name="message" rows="5" 
+                        class="border rounded-xl text-white px-3 py-2 bg-gray-800 border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 resize-y"></textarea>
+
+            <button type="submit" class="cont-button pt-2">
+                <span class="rounded-2xl text-lg sm:text-xl px-6 py-2 bg-green-400 text-black hover:bg-white transition duration-300 shadow-md">
+                    Send Message
+                </span>
+            </button>
+        </form>
+        
+        <div class="flex justify-center gap-6 sm:gap-11 py-10 social-links">
+            <a href="https://github.com/aamodbaral" target="_blank" class="bg-green-400 text-black rounded-lg px-3 py-1 font-bold hover:bg-white transition duration-300 text-base md:text-lg">GitHub</a>
+            <a href="https://www.linkedin.com/in/aamod-baral-119243281/" target="_blank" class="bg-green-400 text-black rounded-lg px-3 py-1 font-bold hover:bg-white transition duration-300 text-base md:text-lg">LinkedIn</a>
+            <a href="https://x.com/AamodBaral" target="_blank" class="bg-green-400 text-black rounded-lg px-3 py-1 font-bold hover:bg-white transition duration-300 text-base md:text-lg">Twitter</a>
+        </div>
+    </section>
+
+   <footer class="bg-black text-green-400 text-center py-6 border-t border-green-800 font-mono">
+    
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-10 mb-4 text-base sm:text-lg">
+        
+        <div class="hover:text-white transition duration-300">
+            <i class="fas fa-phone-alt mr-2 text-green-500"></i>
+            <a href="#">+977 9761890099</a>
+        </div>
+
+        <a href="https://www.instagram.com/aamodbaral/" target="_blank" class="hover:text-white transition duration-300">
+            <i class="fab fa-instagram mr-2 text-green-500"></i>
+            Instagram
+        </a>
+        
+        <a href="https://www.facebook.com/baralaamod790" target="_blank" class="hover:text-white transition duration-300">
+            <i class="fab fa-facebook-f mr-2 text-green-500"></i>
+            Facebook
+        </a>
+    </div>
+
+    <p class="text-sm sm:text-base text-gray-400">&copy; 2025 Aamod Baral. All rights reserved.</p>
+</footer>
+
+</body>
+
+<script>
+    // --- 1. Changing Text Effect (Your Original Code, re-implemented) ---
+    const texts = [
+        "Web Developer & Designer",
+        "Computer Engineer",
+        "Ethical Hacker",
+    ];
+
+    let index = 0;
+    let charIndex = 0;
+    const changingTextElement = document.getElementById('changing-text');
+
+    function type() {
+        if (charIndex < texts[index].length) {
+            changingTextElement.textContent += texts[index].charAt(charIndex);
+            charIndex++;
+            setTimeout(type, 100);
+        } else {
+            setTimeout(erase, 1500);
+        }
+    }
+    
+    function erase() {
+        if (charIndex > 0) {
+            changingTextElement.textContent = texts[index].substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(erase, 50);
+        } else {
+            index = (index + 1) % texts.length;
+            setTimeout(type, 500);
+        }
+    }
+    
+    // Start the typing effect
+    type();
+
+    // --- 2. Binary Rain Effect ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const binaryBackground = document.getElementById('binary-background');
+        const screenWidth = window.innerWidth;
+        const numberOfLines = Math.floor(screenWidth / 20); // Density control
+
+        for (let i = 0; i < numberOfLines; i++) {
+            const line = document.createElement('div');
+            line.classList.add('binary-line');
+            
+            // Randomly generate a long string of 1s and 0s
+            let binaryString = '';
+            for (let j = 0; j < 50; j++) {
+                binaryString += Math.round(Math.random());
+            }
+            line.textContent = binaryString;
+
+            // Set initial horizontal position
+            line.style.left = `${Math.random() * 100}vw`;  
+            
+            // Set random animation duration and delay for staggered look
+            line.style.animationDuration = `${Math.random() * 10 + 5}s`; // 5 to 15 seconds
+            line.style.animationDelay = `-${Math.random() * 15}s`; // Negative delay starts animation mid-cycle
+
+            binaryBackground.appendChild(line);
+        }
+    });
+
+</script>
+</html>
